@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# --------------------------------------------
+#                   Config
+# --------------------------------------------
+bspc monitor -d 1 2 3 4 5 6 7 8 9
+
+bspc config border_width         1
+bspc config window_gap           6
+
+bspc config normal_border_color "#aaaaaa"
+bspc config focused_border_color "#0892d0"
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      false
+
+bspc config focus_follows_pointer true
+
+bspc config pointer_modifier mod1
+bspc config pointer_action1 move
+bspc config pointer_action2 resize_corner
+
+# --------------------------------------------
+#                 Autostart
+# --------------------------------------------
+
+# black bg to prevent weird stuff
+xsetroot -solid black &
+
+# Use my random wallpaper script
+randwall &
+
+# Picom is cool
+pkill picom
+picom &
+
+# The keybindings thanks to the fldsmdfr
+pkill sxhkd
+sxhkd &
+
+# Notifications
+pkill dunst
+dunst &
+
+# Start the CPU usage script
+pkill cpud
+rm /tmp/cpufifo
+cpud &
+
+# Status bar
+panel &
+
+xrdb ~/.Xresources &
+
+# Finally, get rid of the ugly X cursor
+xsetroot -cursor_name left_ptr &
+
+# --------------------------------------------
+#                    Rules
+# --------------------------------------------
+
+bspc rule -a "Yad" "state=floating"
+bspc rule -a "kitty" "state=floating"
+bspc rule -a "Emacs" "state=tiled"
+bspc rule -a "Zathura" "state=tiled"
