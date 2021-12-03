@@ -1,0 +1,55 @@
+#!/bin/bash
+
+ram() {
+	free -ht | awk 'NR==2{print " " $3}'
+}
+
+muted() {
+	tmp="$(amixer -D pulse get Master | awk -F 'Left:|[][]' 'BEGIN {RS=""}{ print $5 }')"
+	[ "$tmp" = "off" ] && echo "%{U#f00} " || echo "%{U#0f0} "
+}
+
+volume() {
+	amixer -D pulse get Master | awk -F 'Left:|[][]' 'BEGIN {RS=""}{ print $3 }'
+}
+
+net() {
+	netstate="$(cat /sys/class/net/"$1"/operstate)"
+	[ "$netstate" = "up" ] && echo '%{U#0f0} 直' || echo '%{U#f00} 睊'
+}
+
+window() {
+	[ "$(bspc query -N focused.floating)" ] && printf "%%{+u}%%{U#fff}"
+	[ "$(bspc query -N focused.pseudo_tiled)" ] && printf "%%{+u}%%{U#0f0}"
+	
+	printf "$(xdotool getactivewindow getwindowname 2> /dev/null | sed 's/^\(.\{60\}\).*/\1.../')%%{-u}%%{U-}"
+}
+
+tags() {
+	for i in $(bspc query -D --names); do
+		[ "$(bspc query -D -d "$i.occupied" --names)" ] && printf "%%{+u}%%{U#fff}"
+		[ "$i" = "$(bspc query -D --names -d focused)" ] && printf "%%{B#44ccff}%%{F#000}"
+		printf "%%{A:%i:} %i %%{B-}%%{F-}%%{-u}%%{A}" "$i" "$i"
+	done
+}
+
+now() {
+	date '+%c'
+}
+
+CPU=""
+prevCPU=""
+
+while true; do
+	read -r -t 0.3 cpu_info < /tmp/cpufifo
+
+	if [ -n "$cpu_info" ]; then
+		prevCPU="$cpu_info"
+		CPU="$cpu_info"
+	else
+		CPU="$prevCPU"
+	fi
+
+	echo "%{l} $(tags) %{!u}$(net wlp3s0) %{!u}%{U-} %{!u}%{A:mute:}$(muted)$(volume)%{A}%{U-}%{!u} %{c}$(window) %{r} %{U#0f0}%{!u}$(printf " %s%%" "$CPU")%{U-}%{!u}  %{!u}%{U#f00}$(ram)%{U-}%{!u} %{F#fff}%{U#0ab5f1}%{!u} $(now) %{!u}%{U-}%{F-}"
+	sleep 0.3
+done

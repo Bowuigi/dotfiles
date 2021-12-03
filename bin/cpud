@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Remove FIFO on exit
+trap "rm -f /tmp/cpufifo;echo Removed fifo" EXIT
+trap "rm -f /tmp/cpufifo" INT
+
+# Make fifo if it doesn't exist
+[ -p "/tmp/cpufifo" ] || mkfifo /tmp/cpufifo
+
+cat /tmp/cpufifo > /dev/null &
+
+# Send data to the fifo
+mpstat 1 | awk 'NR>3{print $3+$5 ; fflush()}'  > /tmp/cpufifo

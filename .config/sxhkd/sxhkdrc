@@ -1,0 +1,198 @@
+#
+# wm independent hotkeys
+#
+
+# HELP_SHOW Help
+alt + @F1
+	keyhelp
+
+# HELP_SHOW Terminal emulator
+alt + @space
+	wezterm
+
+# HELP_SHOW Browser
+alt + @d
+	brave-browser
+
+# HELP_SHOW Text editor (1)
+alt + @a
+	emacs
+
+# HELP_SHOW Text editor (2)
+alt + control + @a
+	wezterm start nvim
+
+# HELP_SHOW File manager
+alt + control + @c
+	pcmanfm
+
+# HELP_SHOW Mail client
+alt + @g
+	geary
+
+# HELP_SHOW Shutdown menu
+alt + @q
+	qoff
+
+# HELP_SHOW Program launcher
+@Super_L
+	dmenu_run
+
+# HELP_SHOW Rofi
+alt + shift + @x
+	rofi -modi drun -show drun
+
+# HELP_SHOW Reload sxhkd config
+alt + Escape
+	notify-send "Reloading sxhkd" -t 500;pkill -USR1 -x sxhkd
+
+# HELP_SHOW Reload lemonbar
+alt + shift + Escape
+	notify-send "Reloading lemonbar" -t 500;panel &
+
+# HELP_SHOW Change the wallpaper
+alt + @w
+	randwall
+
+# HELP_SHOW Task manager
+alt + @z
+	dtm
+
+# HELP_SHOW Screenshot
+alt + Print
+	maim -s | xclip -selection clipboard -t image/png
+
+# HELP_SHOW Pick a color from the screen
+alt + p
+	grabc | xclip -selection clipboard
+
+# HELP_SHOW Clear Clipboard
+alt + @period
+	cclip; notify-send 'Clipboard cleared' -t 500
+
+# HELP_SHOW Volume up/down
+{XF86AudioRaiseVolume, XF86AudioLowerVolume}
+	pactl set-sink-volume @DEFAULT_SINK@ {'+5%','-5%'} 
+
+# HELP_SHOW Volume mute
+XF86AudioMute
+	pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+#
+# bspwm hotkeys
+#
+
+# HELP_SHOW quit/restart bspwm
+alt + shift + {q,r}
+	bspc {quit,wm -r}
+
+# HELP_SHOW close
+alt + shift + c
+	bspc node -c
+
+# HELP_SHOW Swap window positions
+alt + s
+	bspc node '@/' -C forward
+
+# HELP_SHOW Send program to desktop and follow it
+alt + shift + {1-9}
+	bspc node -d '^{1-9}' --follow
+
+# HELP_SHOW Focus a desktop
+alt + {1-9}
+	bspc desktop -f '^{1-9}'
+
+#
+## alternate between the tiled and monocle layout
+## alt + m
+##	bspc desktop -l next
+#
+## send the newest marked node to the newest preselected node
+##alt + y
+##	bspc node newest.marked.local -n newest.!automatic.local
+#
+## swap the current node and the biggest window
+##alt + g
+##	bspc node -s biggest.window
+#
+#
+# state/flags
+#
+
+# HELP_SHOW set the window state
+alt + {r,e,f}
+	bspc node -t {pseudo_tiled,tiled,floating}
+
+## set the node flags
+#alt + ctrl + {m,x,y,z}
+#	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# HELP_SHOW focus the node in the given direction
+alt + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+## focus the node for the given path jump
+#alt + {p,b,comma,period}
+#	bspc node -f @{parent,brother,first,second}
+#
+## focus the next/previous window in the current desktop
+#alt + {_,shift + }c
+#	bspc node -f {next,prev}.local.!hidden.window
+#
+## focus the next/previous desktop in the current monitor
+#alt + bracket{left,right}
+#	bspc desktop -f {prev,next}.local
+#
+## focus the last node/desktop
+#alt + {grave,Tab}
+#	bspc {node,desktop} -f last
+#
+## focus the older or newer node in the focus history
+#alt + {o,i}
+#	bspc wm -h off; \
+#	bspc node {older,newer} -f; \
+#	bspc wm -h on
+#
+## focus or send to the given desktop
+#alt + {_,shift + }{1-9,0}
+#	bspc {desktop -f,node -d} '^{1-9,10}'
+#
+##
+## preselect
+##
+#
+## preselect the direction
+#alt + ctrl + {h,j,k,l}
+#	bspc node -p {west,south,north,east}
+#
+## preselect the ratio
+#alt + ctrl + {1-9}
+#	bspc node -o 0.{1-9}
+#
+## cancel the preselection for the focused node
+#alt + ctrl + space
+#	bspc node -p cancel
+#
+## cancel the preselection for the focused desktop
+#alt + ctrl + shift + space
+#	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+#
+##
+## move/resize
+##
+#
+## expand a window by moving one of its side outward
+#alt + shift + {h,j,k,l}
+#	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+#
+## contract a window by moving one of its side inward
+#alt + ctrl + shift + {h,j,k,l}
+#	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+#
+## move a floating window
+#alt + {Left,Down,Up,Right}
+#	bspc node -v {-20 0,0 20,0 -20,20 0}

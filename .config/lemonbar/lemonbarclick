@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Clickable bar manager
+while read -r line; do
+	case $line in
+		mute) pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
+		*) bspc desktop -f "${line}" ;;
+	esac
+done
+
