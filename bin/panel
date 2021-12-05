@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# A lemonbar panel launcher
+killall lemonbar > /dev/null
+/home/mateo/.config/lemonbar/lemonbarrc | lemonbar -p -f "FiraCode Nerd Font-11.5" -f "Font Awesome" -B "#cc000000" -u 2 | /home/mateo/.config/lemonbar/lemonbarclick
