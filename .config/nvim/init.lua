@@ -12,15 +12,15 @@ Neovim config
 local Paq=require("paq")
 Paq {
 	-- Paq itself
-    "savq/paq-nvim",
+	"savq/paq-nvim",
 
 	-- Libs
 	"kyazdani42/nvim-web-devicons",
 	"nvim-lua/plenary.nvim",
 
 	-- QOL
-    "tpope/vim-sensible",
-    "tpope/vim-surround",
+	"tpope/vim-sensible",
+	"tpope/vim-surround",
 	'winston0410/cmd-parser.nvim',
 	'winston0410/range-highlight.nvim',
 	"jghauser/mkdir.nvim",
@@ -39,14 +39,18 @@ Paq {
 
 	-- Treesitter
 	"nvim-treesitter/nvim-treesitter",
-
+	
 	-- Fancy diagrams
 	"jbyuki/venn.nvim",
 
 	-- Extra
 	"ThePrimeagen/vim-be-good",
-	"tamago324/lir.nvim"
+	"tamago324/lir.nvim",
+
+	-- Acme style editing
+	"Bowuigi/acme-nvim",
 }
+
 -- Helpers
 local function map(mode, key, action)
 	vim.api.nvim_set_keymap(mode, key, action, {noremap = true})
@@ -184,6 +188,9 @@ map("n", "<leader><leader>", "<Cmd>w<CR>")
 map("n", "<leader>l", "<Cmd>LspTroubleToggle<CR>")
 map("n", "gR", "<Cmd>LspTroubleToggle lsp_references<CR>")
 map("n", "<leader>d", "<Cmd>lua Diagram()<CR>")
+map("n", "<CR>", "<Cmd>AcmeExec<CR>")
+map("v", "<CR>", "<Cmd>AcmeExec<CR>")
+map("n", "<leader>T", "<Cmd>AcmeTagline<CR>")
 
 -- Statusline
 vim.cmd [[
@@ -339,8 +346,8 @@ require'lspconfig'.sumneko_lua.setup {
 				path = vim.split(package.path, ';')
 			},
 			diagnostics = {
-				-- Get the language server to recognize the `vim` global
-				globals = {'vim'},
+				-- Get the language server to recognize the `vim` and `love` globals
+				globals = {'vim', 'love'},
 				disable = {
 					'lowercase-global'
 				}
