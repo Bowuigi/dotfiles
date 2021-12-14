@@ -1,0 +1,26 @@
+red = `{color red}
+green = `{color green}
+blue = `{color blue}
+cyan = `{color cyan}
+normal = `{color normal}
+bold = `{color bold}
+
+EDITOR=nvim
+
+fn m { $EDITOR $* }
+
+fn config { m ~/.esrc && . ~/.esrc }
+
+fn l {
+	ls '--color=auto' -SAhs $*
+}
+
+fn cleanpwd {
+	pwd | sed 's#'^$HOME^'#~#gi'
+}
+
+fn ñ { clear }
+
+fn %prompt {
+	prompt = ($green^$bold^[$bqstatus]^$normal^' -> '^$blue^`{cleanpwd}^$normal^\n^'> '^$bold '> ')
+}
