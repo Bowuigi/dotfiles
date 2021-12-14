@@ -1,11 +1,12 @@
+path = (/bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/sbin $HOME/bin)
+EDITOR = nvim
+
 red = `{color red}
 green = `{color green}
 blue = `{color blue}
 cyan = `{color cyan}
 normal = `{color normal}
 bold = `{color bold}
-
-EDITOR=nvim
 
 fn m { $EDITOR $* }
 
