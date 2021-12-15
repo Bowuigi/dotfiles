@@ -1,5 +1,6 @@
 path = (/bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/sbin $HOME/bin)
 EDITOR = nvim
+PAGER = less
 
 red = `{color red}
 green = `{color green}
@@ -9,6 +10,13 @@ normal = `{color normal}
 bold = `{color bold}
 
 fn m { $EDITOR $* }
+fn p { $PAGER $* }
+
+fn gs { git status }
+fn ga { git add $* }
+fn gc { git commit }
+fn gp { git push }
+fn gP { git pull }
 
 fn config { m ~/.esrc && . ~/.esrc }
 
