@@ -12,11 +12,11 @@ bold = `{color bold}
 fn m { $EDITOR $* }
 fn p { $PAGER $* }
 
-fn gs { git status }
+fn gs { git status $* }
 fn ga { git add $* }
-fn gc { git commit }
-fn gp { git push }
-fn gP { git pull }
+fn gc { git commit $* }
+fn gp { git push $* }
+fn gP { git pull $* }
 
 fn config { m ~/.esrc && . ~/.esrc }
 
