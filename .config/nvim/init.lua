@@ -9,7 +9,7 @@ Neovim config
 ]]
 
 -- Paq plugins
-local Paq=require("paq")
+local Paq = require("paq")
 Paq {
 	-- Paq itself
 	"savq/paq-nvim",
@@ -33,9 +33,15 @@ Paq {
 	-- LSP and fancy related stuff
 	"ervandew/supertab",
 	"neovim/nvim-lspconfig",
-	"nvim-lua/completion-nvim",
 	"folke/lsp-colors.nvim",
 	"folke/lsp-trouble.nvim",
+
+	-- Completion
+	"hrsh7th/nvim-cmp",
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-buffer",
+	"hrsh7th/cmp-path",
+	"hrsh7th/cmp-cmdline",
 
 	-- Treesitter
 	"nvim-treesitter/nvim-treesitter",
@@ -119,34 +125,34 @@ end
 
 -- Neovim options
 local options={
-	compatible = false;
-	tabstop = 4;
-	shiftwidth = 4;
-	expandtab = false;
-	smartindent = true;
 	autochdir = true;
-	ignorecase = true;
-	showcmd = true;
 	autowriteall = true;
-	splitbelow = true;
-	splitright = true;
-	cursorline = false;
-	cursorbind = false;
-	spell = false;
-	spelllang = {"en_us","es_es"};
-	wrap = false;
-	title = true;
-	titlestring = "%F - Neovim";
-	mouse = "a";
-	updatetime = 2000;
+	compatible = false;
+	completeopt = "menuone,preview,noinsert,noselect";
 	conceallevel = 2;
+	cursorbind = false;
+	cursorline = false;
+	expandtab = false;
+	fillchars = "vert:│,fold:-,stl: ,stlnc: ,diff:-";
+	hidden = true;
+	ignorecase = true;
+	mouse = "a";
 	number = true;
 	relativenumber = true;
-	fillchars = "vert:│,fold:-,stl: ,stlnc: ,diff:-";
-	showmode = false;
-	hidden = true;
-	completeopt = "menuone,noinsert,noselect";
+	shiftwidth = 4;
 	shortmess = "c";
+	showcmd = true;
+	showmode = false;
+	smartindent = true;
+	spell = false;
+	spelllang = {"en_us","es_es"};
+	splitbelow = true;
+	splitright = true;
+	tabstop = 4;
+	title = true;
+	titlestring = "%F - Neovim";
+	updatetime = 2000;
+	wrap = false;
 }
 
 for key,value in pairs(options) do
@@ -157,7 +163,6 @@ end
 vim.g.mapleader=" "
 -- Completion
 vim.g.SuperTabDefaultCompletionType = "<c-n>"
-vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy', 'all'}
 vim.g.c_syntax_for_h = true
 
 -- Stuff that is unimplemented
@@ -185,8 +190,8 @@ map("n", "<leader>N"       , ":tabnew ")
 map("n", "<leader><leader>", "<Cmd>w<CR>")
 
 -- Plugin mappings
-map("n", "<leader>l", "<Cmd>LspTroubleToggle<CR>")
-map("n", "gR", "<Cmd>LspTroubleToggle lsp_references<CR>")
+map("n", "<leader>l", "<Cmd>TroubleToggle<CR>")
+map("n", "gR", "<Cmd>TroubleToggle lsp_references<CR>")
 map("n", "<leader>d", "<Cmd>lua Diagram()<CR>")
 map("n", "<CR>", "<Cmd>AcmeExec<CR>")
 map("v", "<CR>", "<Cmd>AcmeExec<CR>")
@@ -219,27 +224,34 @@ vim.cmd [[
 	hi LirEmptyDirText  ctermfg=0
 ]]
 
+function getPowerSym()
+	if (vim.env.TERM == "linux") then
+		return ""
+	end
+	return ""
+end
+
 function Statusline()
 	return  "%#StatuslineMode# "          .. -- Mode color
             get_mode()                    .. -- Mode
 	        " %#StatuslineModeR#"         .. -- Mode color
-            ""                           .. -- Fancy symbols
+            getPowerSym()                 .. -- Fancy symbols
             "%#StatuslineFilename#"       .. -- Color
             " %t "                        .. -- Filename
             "%m"                          .. -- Saved?
             "%#StatuslineFilenameR#"      .. -- Fancy symbols
-	        ""                           .. -- The actual symbol
+	        getPowerSym()                 .. -- The actual symbol
 	        "%#StatuslineBG#"             .. -- Background
 	        "%="                          .. -- Change side
 	        "%#StatuslinePositionR#"      .. -- More fancy symbols
-	        ""                           .. -- The actual symbol again
+	        getPowerSym()                 .. -- The actual symbol again
 	        "%#StatuslinePosition#"       .. -- More color
 	        " %c,%l "                     .. -- Position
 	        "%#StatuslinePositionR2#"     .. -- Even more fancy symbols
-	        ""                           .. -- The actual symbol again
+	        getPowerSym()                 .. -- The actual symbol again
 	        "%#StatuslineBG#  "           .. -- Space
 	        "%#StatuslineFiletypeR#"      .. -- Even more fancy symbols
-	        ""                           .. -- The actual symbol again
+	        getPowerSym()                 .. -- The actual symbol again
 	        "%#StatuslineFiletype# "      .. -- Even more color
             capitalize(vim.bo.filetype).." " -- Filetype
 end
@@ -317,11 +329,12 @@ vim.cmd [[
 let g:startify_custom_header = startify#pad(split(system('figlet -w 100 Neovim;echo "The best way to flex on VSCode users"'), "\n") + [""] + startify#fortune#boxed())
 ]]
 
--- LSP
+-- LSP + completion
 local lsp = require "lspconfig"
+local cmp_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 lsp.clangd.setup {
-	on_attach=require("completion").on_attach
+	capabilities = cmp_capabilities
 }
 
 -- Lua LSP
@@ -336,6 +349,7 @@ sumneko_root_path = "/home/" .. USER .. "/.local/share/nvim/lua-language-server"
 sumneko_binary = sumneko_root_path .."/bin/Linux/lua-language-server"
 
 require'lspconfig'.sumneko_lua.setup {
+	capabilities = cmp_capabilities,
 	cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
 	settings = {
 		Lua = {
@@ -450,4 +464,25 @@ vim.g.markdown_fenced_languages = {'lua','c'}
 
 -- Fancy quick fix list
 require("trouble").setup {}
+
+-- Completion
+local cmp = require("cmp")
+
+cmp.setup {
+	-- No, I don't want snippets
+	snippet = {expand = function(args) end},
+	
+	sources = cmp.config.sources({
+		{name = 'nvim-lsp'},
+		{name = 'path'}
+	}, {{name = 'buffer'}})
+}
+
+cmp.setup.cmdline('/', {
+	sourcess = {{name = 'buffer'}}
+})
+
+cmp.setup.cmdline(':', {
+	sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})
+})
 
