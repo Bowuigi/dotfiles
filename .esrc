@@ -1,6 +1,8 @@
 path = (/bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/sbin $HOME/bin)
 EDITOR = nvim
 PAGER = less
+BROWSER = lynx
+search = searx.garudalinux.org
 
 red = `{color red}
 green = `{color green}
@@ -11,6 +13,8 @@ bold = `{color bold}
 
 fn m { $EDITOR $* }
 fn p { $PAGER $* }
+fn s { $BROWSER $* }
+fn S { $BROWSER $search }
 
 fn gs { git status $* }
 fn ga { git add $* }
