@@ -1,8 +1,10 @@
-path = (/bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/sbin $HOME/bin)
+# vim: ft=sh
+path = (/bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/bin $HOME/bin)
 EDITOR = nvim
 PAGER = less
-BROWSER = lynx
-search = searx.garudalinux.org
+WWW_HOME = searx.garudalinux.org
+BROWSER = links -g
+# ELinks for TUI, Links2 for Framebuffer
 
 red = `{color red}
 green = `{color green}
@@ -13,8 +15,7 @@ bold = `{color bold}
 
 fn m { $EDITOR $* }
 fn p { $PAGER $* }
-fn s { $BROWSER $* }
-fn S { $BROWSER $search }
+fn S { $BROWSER $* }
 
 fn gs { git status $* }
 fn ga { git add $* }
@@ -30,6 +31,10 @@ fn l {
 
 fn cleanpwd {
 	pwd | sed 's#'^$HOME^'#~#gi'
+}
+
+fn spkg {
+	yay '--color=always' -Ss $* | $PAGER -R
 }
 
 fn ñ { clear }
