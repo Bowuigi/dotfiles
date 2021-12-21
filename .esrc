@@ -1,5 +1,5 @@
 # vim: ft=sh
-path = (/bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/bin $HOME/bin)
+path = (/bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/bin $HOME/bin /usr/bin/core_perl)
 EDITOR = nvim
 PAGER = less
 WWW_HOME = searx.garudalinux.org
@@ -35,6 +35,10 @@ fn cleanpwd {
 
 fn spkg {
 	yay '--color=always' -Ss $* | $PAGER -R
+}
+
+fn scheck {
+	du -c -h / >[2] /dev/null | tail -n1
 }
 
 fn ñ { clear }
