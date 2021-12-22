@@ -44,7 +44,7 @@ fn scheck {
 fn list {
 	pkg = `{ls $path | grep $* | sort | uniq}
 	num = `{echo $pkg | tr ' ' \n | wc -l}
-	echo Found $num packages matching options and pattern $*
+	echo Found $num executables matching options and pattern $*
 	echo $pkg | tr ' ' \n
 }
 
