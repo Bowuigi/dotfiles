@@ -41,6 +41,13 @@ fn scheck {
 	du -c -h / >[2] /dev/null | tail -n1
 }
 
+fn list {
+	pkg = `{ls $path | grep $* | sort | uniq}
+	num = `{echo $pkg | tr ' ' \n | wc -l}
+	echo Found $num packages matching options and pattern $*
+	echo $pkg | tr ' ' \n
+}
+
 fn ñ { clear }
 
 fn %prompt {

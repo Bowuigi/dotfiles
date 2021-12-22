@@ -32,8 +32,7 @@ xsetroot -solid black &
 randwall &
 
 # Picom is cool
-pkill picom
-picom &
+[ "$ENABLE_PICOM" ] && pkill picom && picom &
 
 # The keybindings thanks to the fldsmdfr
 pkill sxhkd
