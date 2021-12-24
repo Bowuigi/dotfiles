@@ -48,8 +48,16 @@ fn list {
 	echo $pkg | tr ' ' \n
 }
 
+fn mxopen {
+	prevdir = `{pwd}
+	cd ~/.cache/gomuks/media/$1
+	mpv '--vo=drm' `{ls -tr | tail -n $2}
+	cd $prevdir
+}
+
 fn ñ { clear }
 
 fn %prompt {
 	prompt = ($green^$bold^[$bqstatus]^$normal^' -> '^$blue^`{cleanpwd}^$normal^\n^'> '^$bold '> ')
 }
+

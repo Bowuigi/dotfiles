@@ -31,7 +31,6 @@ Paq {
 	"mhinz/vim-startify",
 
 	-- LSP and fancy related stuff
-	"ervandew/supertab",
 	"neovim/nvim-lspconfig",
 	"folke/lsp-colors.nvim",
 	"folke/lsp-trouble.nvim",
@@ -162,7 +161,6 @@ end
 -- Global settings
 vim.g.mapleader=" "
 -- Completion
-vim.g.SuperTabDefaultCompletionType = "<c-n>"
 vim.g.c_syntax_for_h = true
 
 -- Stuff that is unimplemented
