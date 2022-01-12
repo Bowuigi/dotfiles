@@ -1,5 +1,5 @@
 #!/bin/sh
 
 # A lemonbar panel launcher
-killall lemonbar > /dev/null
-~/.config/lemonbar/lemonbarrc | lemonbar -p -f "Fira Code-11.5" -f "Font Awesome" -B "#cc000000" -u 2 | ~/.config/lemonbar/lemonbarclick
+killall lemonbar 2> /dev/null
+~/.config/lemonbar/lemonbarrc | lemonbar -a 20 -p -f "Fira Code" -B "#cc000000" -u 2 | ~/.config/lemonbar/lemonbarclick

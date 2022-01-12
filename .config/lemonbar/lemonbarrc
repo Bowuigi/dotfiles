@@ -50,6 +50,6 @@ while true; do
 		CPU="$prevCPU"
 	fi
 
-	echo "%{l} $(tags) %{!u}$(net wlp3s0) %{!u}%{U-} %{!u}%{A:mute:}$(muted)$(volume)%{A}%{U-}%{!u} %{c}$(window) %{r} %{U#0f0}%{!u}$(printf " %s%%" "$CPU")%{U-}%{!u}  %{!u}%{U#f00}$(ram)%{U-}%{!u} %{F#fff}%{U#0ab5f1}%{!u} $(now) %{!u}%{U-}%{F-}"
+	echo "%{l} $(tags) %{!u}$(net wlan0) %{!u}%{U-} %{!u}%{A:mute:}$(muted)$(volume)%{A}%{U-}%{!u} %{c}$(window) %{r} %{U#0f0}%{!u}$(printf " %s%%" "$CPU")%{U-}%{!u}  %{!u}%{U#f00}$(ram)%{U-}%{!u} %{F#fff}%{U#0ab5f1}%{!u} $(now) %{!u}%{U-}%{F-}"
 	sleep 0.3
 done

@@ -22,6 +22,7 @@ fn ga { git add $* }
 fn gc { git commit $* }
 fn gp { git push $* }
 fn gP { git pull $* }
+fn gl { git shortlog $* }
 
 fn config { m ~/.esrc && . ~/.esrc }
 
@@ -49,13 +50,17 @@ fn list {
 }
 
 fn mxopen {
-	prevdir = `{pwd}
+	prevdir = `pwd
 	cd ~/.cache/gomuks/media/$1
 	mpv '--vo=drm' `{ls -tr | tail -n $2}
 	cd $prevdir
 }
 
 fn ñ { clear }
+
+fn 3 {
+	[ $TERM '=' linux ] && tree -Cah $* || tree -CAah $*
+}
 
 fn %prompt {
 	prompt = ($green^$bold^[$bqstatus]^$normal^' -> '^$blue^`{cleanpwd}^$normal^\n^'> '^$bold '> ')
