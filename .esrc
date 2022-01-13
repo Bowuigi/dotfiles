@@ -62,6 +62,16 @@ fn 3 {
 	[ $TERM '=' linux ] && tree -Cah $* || tree -CAah $*
 }
 
+# Beep with alsa
+fn alarm {
+	echo 'Beep!'
+	{
+		for (a = `{seq 700}) {
+			echo 'abc'
+		}
+	} | aplay >[2] /dev/null
+}
+
 fn %prompt {
 	prompt = ($green^$bold^[$bqstatus]^$normal^' -> '^$blue^`{cleanpwd}^$normal^\n^'> '^$bold '> ')
 }
