@@ -56,6 +56,13 @@ Paq {
 	"Bowuigi/acme-nvim",
 }
 
+vim.cmd [[
+augroup my-config
+	autocmd!
+	autocmd TermOpen * :setlocal nonu nornu
+augroup END
+]]
+
 -- Helpers
 local function map(mode, key, action)
 	vim.api.nvim_set_keymap(mode, key, action, {noremap = true})
@@ -194,6 +201,14 @@ map("n", "<leader>d", "<Cmd>lua Diagram()<CR>")
 map("n", "<CR>", "<Cmd>AcmeExec<CR>")
 map("v", "<CR>", "<Cmd>AcmeExec<CR>")
 map("n", "<leader>T", "<Cmd>AcmeTagline<CR>")
+
+-- Term mode mappings
+map("t", "<C-x><C-x>", "<C-\\><C-n>")
+map("t", "<C-w>", "<C-x><C-x><C-w>")
+map("t", "<A-h>", "<C-w>h")
+map("t", "<A-j>", "<C-w>j")
+map("t", "<A-k>", "<C-w>k")
+map("t", "<A-l>", "<C-w>l")
 
 -- Statusline
 vim.cmd [[
