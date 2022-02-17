@@ -486,7 +486,7 @@ cmp.setup {
 	snippet = {expand = function(args) end},
 	
 	sources = cmp.config.sources({
-		{name = 'nvim-lsp'},
+		{name = 'nvim_lsp'},
 		{name = 'path'}
 	}, {{name = 'buffer'}})
 }

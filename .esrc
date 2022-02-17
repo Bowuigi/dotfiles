@@ -1,13 +1,23 @@
 # vim: ft=sh
 path = (/usr/lib/ccache/bin /bin /sbin /usr/bin /usr/sbin /usr/local/sbin /usr/local/bin $HOME/bin /usr/bin/core_perl $HOME/.local/share/gem/ruby/*/bin)
+
+# Luarocks setup
+LUA_PATH='/usr/local/share/lua/5.4/?.lua;/usr/share/lua/5.4/?.lua;/usr/share/lua/5.4/?/init.lua;/usr/lib/lua/5.4/?.lua;/usr/lib/lua/5.4/?/init.lua;./?.lua;./?/init.lua;'^$HOME^'/.luarocks/share/lua/5.4/?.lua;'^$HOME^'/.luarocks/share/lua/5.4/?/init.lua;/usr/local/share/lua/5.4/?/init.lua'
+LUA_CPATH='/usr/lib/lua/5.4/?.so;/usr/lib/lua/5.4/loadall.so;./?.so;'^$HOME^'/.luarocks/lib/lua/5.4/?.so;/usr/local/lib/lua/5.4/?.so'
+
 EDITOR = nvim
 PAGER = less
+LANG=es
+LC_ALL=es_AR.UTF-8
 # SearX with settings
 WWW_HOME = 'https://searx.garudalinux.org?preferences=eJx1VU2P2zgM_TX1xUix3R725MOii6IFCkzRme7VoCXG5loSXUpOxvvrSzlOIgftIcmQ4tcjHzkGEvYshLHpMaCAqxyEfoYeGwyH78-VYwMuCxXMiQ37yWHCxs5mzJ-eK_Jq3U7Cr0vzEVzEymMa2DZfn55fqghHjAhihuaPKg3oseFoQCrBOLsUWw5twHOboNu8LVOrj-xOKA2Dim9Z-mr1OsS0aDWOezJs8XSwIGMF9gTBoG23RFscitA51WLoKShCR52ALHVGGim27Qb5zZ8fBK2l1OZKooqe_0McSwMKJ7LEs3rpH8jZ6t6Deu2Bvl1-9a1X_0R-1SWVjwIecgG4Kc40Usc87sqYECXNHRZJZPYKolD0zL3DenKw1J5PhGVJmBbPwSncHbq5W3r0sUitvY2Ult9A9HMko6qwAJS1bF26-yQeF04cBx4h_LI1pfXRCpNt2yO5tUmXceVB1vlrK--S9GpDoawgTH6zesh8NX_3_v1fr78o-TaYiP8H8LuqBLGOfExnEKwtCZrEsmx5rgEiGwJXe7QEGaDta4tHCpSIw26Iub2ZRzc2jWRGiLHAnUDSlLemcOupV7pCTI-xfsycdpa3eDeUc4jKhziUONmRVRyCIRWpB9AdyF8bvDwAJUO9X4eekoNuMykJB9NU4kAPIZGpoxnYgcaMhlA3MQeextqTCMvdnicMghMXIexsMZSpUficOXLXBFCy7kwSs9vV--61QG6MOaRT0Z2OUqdcxHTnfx4ayPLY6sizmF2vHXcx4Vu57k7maYfSb-JtFNeNeaDlfpFuJV7E66NfPHplXJ0EQnR6knf4f5y1yftKu2VPYAojgSkSrCvOywPFFhj4vpAVhv19vF_Myc2qis2_5A-ORmwHTiMuOfLnsJIeddTCLkd90qm2fxuD2od_nj7r7T6LGtzCX4N9ygS9COr1vO5-vv7m8j9o0evtdPX07dPLy9fna5zV1h1bTcziYV031b0I6Eil_f7ti1rqIUSptPmoiX4CZcST7w==&q='
 BROWSER = links -g
 
 XDG_CONFIG_HOME = ~/.config/
 # ELinks for TUI, Links2 for Framebuffer
+
+# Some nice stuff for the lua REPL
+LUA_INIT = 'dofile(os.getenv("XDG_CONFIG_HOME").."/lua/config.lua")'
 
 red = `{color red}
 green = `{color green}
@@ -76,6 +86,10 @@ fn alarm {
 }
 
 fn %prompt {
-	prompt = ($green^$bold^[$bqstatus]^$normal^' -> '^$blue^`{cleanpwd}^$normal^\n^'> '^$bold '> ')
+	prompt = ($green^$bold^`status^$normal^' -> '^$blue^`{cleanpwd}^$normal^\n^'> '^$bold '> ')
 }
 
+fn settheme {
+	THEME_SET=base16-chalk
+	sh ~/.config/theme.sh
+}

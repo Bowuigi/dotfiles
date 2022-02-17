@@ -1,0 +1,48 @@
+#!/usr/bin/env lua
+
+E = setmetatable({}, {
+	__index = function(_, var)
+		return os.getenv(var)
+	end
+})
+
+S = function(cmd)
+	local f = io.popen(cmd, "r")
+	local tmp = f:read("*a")
+	f:close()
+
+	return tmp
+end
+
+ReadF = function(fname)
+	local f = io.open(fname, "r")
+	local tmp = f:read("*a")
+	f:close()
+
+	return tmp
+end
+
+disp, tty, user, net = nil
+
+-- Detect Xorg
+if E.DISPLAY then
+	disp = "X"
+	tty = (E.DISPLAY):sub(2)
+else
+	disp = "T"
+	tty = (S "tty")
+	if (tty == "not a tty\n") then
+		tty = "-"
+	elseif (tty:match("pts")) then
+		tty = "m"
+	else
+		tty = tty:match("%d+") or "u"
+	end
+end
+
+-- Current user
+user = (S "whoami"):sub(1,1)
+
+net = (ReadF("/sys/class/net/wlan0/operstate") == "up\n") and "u" or "d"
+
+print("["..disp..tty..user..net.."]");
